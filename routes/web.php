@@ -25,4 +25,6 @@ Route::match(['get','post'],'/dashboard',[HomeController::class,'dashboard'])
 ->name('app_dashboard');
 Route::get('/logout',[LoginController::class,'logout'])
 ->name('app_logout');
+Route::post('/exist_email',[LoginController::class,'existEmail'])
+->name('app_existEmail');
 

@@ -20,7 +20,7 @@
                   </div>
                 <div class="col-md-12">
                     <label for="email" class="form-label">email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}" required autocomplete="email" autofocus>
+                    <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}" required autocomplete="email" autofocus url-emailExist = "{{route('app_existEmail')}}" token ="{{csrf_token()}}">
                     <small class="text-danger fw-bold"  id="error-register-email"></small>
                   </div>
                 <div class="col-md-6">

@@ -96,7 +96,13 @@ $(document).ready(function() {
         return false;
       } else {
         // Soumettre le formulaire
-        $('#registerForm').submit();
+        var res = emailExistjs(email);
+        // une condition ternaire
+        (res != "exit")? $('#registerForm').submit()
+        :   $('#error-register-password').text('votre adress mail est deja utiliser');
+            $('#password').removeClass('is-valid').addClass('is-invalid');
+            error = true;     
+
       }
     });
   });
@@ -109,4 +115,24 @@ $(document).ready(function() {
     var regex = /^[a-zA-ZÀ-ÿ\s]+$/;
     return regex.test(name);
   }
+
+  function emailExistjs(email){
+    var url=$('#email').attr('url-emailExist');
+    var token=$('#email').attr('token');
+    var res = "";
+    $.ajax({
+      type :'POST',
+      url:url,      
+      data :{
+        '_token':token,
+        email :email
+      },
+      success: function(result) {
+        res = result.response;
+      },
+      async:false
+    });
+    return res;
+    
+  } 
   
