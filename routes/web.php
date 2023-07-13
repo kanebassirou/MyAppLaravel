@@ -20,8 +20,9 @@ Route::get('/', [HomeController::class,'home'])
 Route::get('/about', [HomeController::class,'about'])
 ->name('app_about');
 Route::match(['get','post'],'/dashboard',[HomeController::class,'dashboard'])
+//utilisateur ne peut pas acceder a la page dashbord si il n'est pas connecter
+->middleware('auth')
 ->name('app_dashboard');
-// Route::match(['get','post'],'/login',[LoginController::class,'login'])
-// ->name('app_login');
-// Route::match(['get','post'],'/register',[LoginController::class,'register'])
-// ->name('app_register');
+Route::get('/logout',[LoginController::class,'logout'])
+->name('app_logout');
+

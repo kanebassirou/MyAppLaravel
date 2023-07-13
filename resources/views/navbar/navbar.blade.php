@@ -16,14 +16,25 @@
       </ul>
     </div>
     <div class="btn-group">
+      @guest
       <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         Mon compte
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="{{route('login')}}">login</a></li>
-        <li><a class="dropdown-item" href="{{route('register')}}">Register</a></li>
-     
+          <li><a class="dropdown-item" href="{{route('login')}}">login</a></li>
+          <li><a class="dropdown-item" href="{{route('register')}}">Register</a></li>
       </ul>
+       @endguest
+       @auth
+       <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        {{Auth::user()->name}}
+      </button>
+      <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{{route('logout')}}">logout</a></li>
+      </ul>
+           
+       @endauth
+      
     </div>
     
   </div>
