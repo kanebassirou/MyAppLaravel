@@ -99,9 +99,9 @@ $(document).ready(function() {
         var res = emailExistjs(email);
         // une condition ternaire
         (res != "exit")? $('#registerForm').submit()
-        :   $('#error-register-password').text('votre adress mail est deja utiliser');
-            $('#password').removeClass('is-valid').addClass('is-invalid');
-            error = true;     
+        :  ($('#error-register-email').text('votre adress mail est deja utiliser'),
+            $('#email').removeClass('is-valid').addClass('is-invalid'),
+            error = true);     
 
       }
     });
