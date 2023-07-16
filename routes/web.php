@@ -27,4 +27,8 @@ Route::get('/logout',[LoginController::class,'logout'])
 ->name('app_logout');
 Route::post('/exist_email',[LoginController::class,'existEmail'])
 ->name('app_existEmail');
+Route::match(['get', 'post'], '/activation_code/{token}',[LoginController::class,'activationCode'])
+->name('app_activation_code');
+Route::get('/user_checher', [LoginController::class,'userChecher'])
+->name('app_user_checher');
 
