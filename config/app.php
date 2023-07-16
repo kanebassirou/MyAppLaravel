@@ -17,6 +17,10 @@ return [
     */
 
     'name' => env('APP_NAME', ''),
+    'email_host' => env('MAIL_HOST', ''),
+    'email_port' => env('MAIL_PORT', ''),
+    'email_username' => env('MAIL_USERNAME', ''),
+    'email_password' => env('MAIL_PASSWORD', ''),
 
     /*
     |--------------------------------------------------------------------------
