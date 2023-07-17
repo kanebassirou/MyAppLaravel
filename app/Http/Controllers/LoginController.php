@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\MockObject\Stub\ReturnSelf;
 
 class LoginController extends Controller
@@ -32,9 +33,12 @@ class LoginController extends Controller
         ]);
     }
     public function activationCode($token){
-      
-        if($this->request->isMethod('post')){
-            $user =user::where('activation_token',$token)->first();
+
+        $user =user::where('activation_token',$token)->first();
+         if(!$user){
+            return redirect()->route('login')->with('danger',"votre token ne correspond pas à aucun utilisateur.");
+         }
+        if($this->request->isMethod('post')){  //s'execute si uniquement si le formulaire est soumis
             $code = $user->activation_code; 
             $activation_code =$this->request->input('activation-code');
             if($activation_code != $code){
@@ -73,5 +77,42 @@ class LoginController extends Controller
     }else{
         return redirect()->route('app_dashboard');
     }
+    }
+    public function resendActivationCode($token){
+        $user =user::where('activation_token',$token)->first();
+        $email =$user->email;
+        $name =$user->name;
+        $activation_token=$user->activation_token;
+        $activation_code=$user->activation_code;
+        $emailSend = new EmailService;
+        $subject = "Activer votre compte";
+        $message = View('mail.confirmation_email')
+                       ->with([
+                         'name'=> $name,
+                         'activation_code'=>$activation_code,
+                         'activation_token'=>$activation_token
+
+                       ]);
+        $emailSend->sendEmail($subject,$email,$name,true,$message);
+        return redirect()->route('app_activation_code',['token' =>$token])
+                                ->with('success',"un nouveau code d'activation est envoye");
+
+    }
+    public function activationAccountLink($token){
+        $user =user::where('activation_token',$token)->first();
+         if(!$user){
+            return redirect()->route('login')->with('danger',"votre token ne correspond pas à aucun utilisateur.");
+         }
+         DB::table('users')
+         ->where('id',$user->id)
+         ->update([
+           'is_verified'=>1,
+           'activation_code' =>'',
+           'activation_token'=>'',
+           'email_verified_at'=>new \DateTimeImmutable,
+           'updated_at'=> new \DateTimeImmutable
+         ]);
+         return redirect()->route('login')->with('success',"votre address mail est verifier !");
+
     }
 }

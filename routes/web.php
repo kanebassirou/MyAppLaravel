@@ -31,4 +31,7 @@ Route::match(['get', 'post'], '/activation_code/{token}',[LoginController::class
 ->name('app_activation_code');
 Route::get('/user_checher', [LoginController::class,'userChecher'])
 ->name('app_user_checher');
-
+Route::get('/resend_activation_code/{token}',[LoginController::class,('resendActivationCode')])
+->name('app_resend_activation_code');
+Route::get('/activation_account_link/{token}',[LoginController::class,('activationAccountLink')])
+->name('app_activation_account_link');

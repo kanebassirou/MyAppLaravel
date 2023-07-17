@@ -8,12 +8,7 @@
         <p class="text-center text-muted mb-5">veuillez connecter vos article vous attend</p> 
         <form method="POST" action="{{route('login')}}">
             @csrf
-          {{-- pour les message success --}}
-         @if (Session::has('success'))
-            <div class="alert alert-success text-center" role="alert">
-              {{Session::get('success')}}
-            </div>  
-          @endif
+         @include('alert.alert-message')
           
             @error('email')
             <div class="alert alert-danger text-center" role="alert">
