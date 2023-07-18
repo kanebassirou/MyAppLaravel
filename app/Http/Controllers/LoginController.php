@@ -115,4 +115,50 @@ class LoginController extends Controller
          return redirect()->route('login')->with('success',"votre address mail est verifier !");
 
     }
+    public function activationAccountChangeEmail($token){
+        $user =user::where('activation_token',$token)->first();
+
+        if($this->request->isMethod('post')){ 
+            $new_email = $this->request->input('new_email');
+            $user_existe = user::where('email',$new_email)->first();
+            // dd($new_email);
+            if($user_existe){
+                return back()->with([
+                    'danger' =>"votre adress est déja utiliser SVP entrer un autre adresse email",
+                    'new_email'=>$new_email,
+                ]);
+
+            }else{
+                DB::table('users')
+                ->where('id',$user->id)
+                ->update([
+                    'email' => $new_email,
+                    'updated_at'=> new \DateTimeImmutable
+                ]);
+                $activation_code = $user->activation_code;
+                $activation_token =$user->activation_token;
+                $name =$user->name;
+                $emailSend = new EmailService;
+                $subject = "Activer votre compte";
+                $message = View('mail.confirmation_email')
+                               ->with([
+                                 'name'=> $name,
+                                 'activation_code'=>$activation_code,
+                                 'activation_token'=>$activation_token
+        
+                               ]);
+                $emailSend->sendEmail($subject,$new_email,$name,true,$message);
+                return redirect()->route('app_activation_code',['token' =>$token])
+                                ->with('success',"nous avons envoyé un nouveau code d'activation par email avec l'adresse email fourni !!!");
+
+                
+            }
+
+
+        }else{
+            return view('Auth.changeEmail',['token'=> $token]);
+
+        }
+
+    }
 }

@@ -16,7 +16,7 @@
                        
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <a href="#">Changer votre adresse email </a>
+                                <a href="{{route('app_activation_account_change_email',['token'=>$token])}}">Changer votre adresse email </a>
                             </div>
                             <div class="col-md-6 text-end"><a href="{{route('app_resend_activation_code',['token'=>$token])}}">Renvoyer un code d'activation</a></div>
                         </div>
