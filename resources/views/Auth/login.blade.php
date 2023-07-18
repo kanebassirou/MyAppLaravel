@@ -33,7 +33,7 @@
                       </div>
                  </div>
                  <div class="col-md text-end">
-                    <a href="#">mot de passe oublie</a>
+                    <a href="{{route('app_forgot_password')}}">mot de passe oublie</a>
                  </div>
                  <div class="d-grid gap-2">
                     <button class="btn btn-primary" type="submit">sign in </button> 
