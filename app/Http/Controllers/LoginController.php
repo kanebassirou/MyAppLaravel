@@ -149,6 +149,24 @@ class LoginController extends Controller
 
     }
     public function forgotPassword(){
+        if($this->request->isMethod('post')){
+          $email = $this->request->input('email-send'); 
+          $user = DB::table('users')->where('email',$email)->first();
+           if($user){
+            $full_name =$user->name;
+            // on va generer un token pour reiniatialisation de mot de passe de user
+            $activation_token = md5(uniqid() .$email . sha1($email));
+            $passwordReset = new EmailService;
+            $subject = "reiniatialisation de mot de passe";
+            $passwordReset->resetPassword($subject, $email, $full_name, true,$activation_token);
+
+           }else{
+            return back()->withErrors(['email-error'=>"votre adresse email ne correspond à aucun utilisateur"])
+                        ->with('old_email',$email)
+                        ->with('danger',"votre adresse email ne correspond à aucun utilisateur");
+           }
+
+        }
         return view('Auth.forgot_password');
     }
 }
