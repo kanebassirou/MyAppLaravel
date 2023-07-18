@@ -18,7 +18,7 @@ class EmailService {
         $this->password = config('app.email_password');      
     }
     
-    public function sendEmail($subject, $emailUser, $nameUser, $ishtml, $message)
+    public function sendEmail($subject, $emailUser, $nameUser, $ishtml,$activation_code,$activation_token)
     {
         $mail = new PHPMailer;
         $mail->isSMTP();
@@ -33,7 +33,16 @@ class EmailService {
         $mail->addReplyTo($this->app_name, $this->app_name);
         $mail->addAddress($emailUser, $nameUser);
         $mail->isHTML($ishtml);
-        $mail->Body = $message;
+         $mail->Body = $this->ViewSendEmail($nameUser,$activation_code,$activation_token);
         $mail->send();
+    }
+    public function ViewSendEmail($name,$activation_code,$activation_token){
+        return View('mail.confirmation_email')
+        ->with([
+          'name'=> $name,
+          'activation_code'=>$activation_code,
+          'activation_token'=>$activation_token
+
+        ]);
     }
 }

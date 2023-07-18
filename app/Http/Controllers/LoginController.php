@@ -86,15 +86,8 @@ class LoginController extends Controller
         $activation_code=$user->activation_code;
         $emailSend = new EmailService;
         $subject = "Activer votre compte";
-        $message = View('mail.confirmation_email')
-                       ->with([
-                         'name'=> $name,
-                         'activation_code'=>$activation_code,
-                         'activation_token'=>$activation_token
-
-                       ]);
-        $emailSend->sendEmail($subject,$email,$name,true,$message);
-        return redirect()->route('app_activation_code',['token' =>$token])
+                       $emailSend->sendEmail($subject,$email,$name,true,$activation_code,$activation_token);
+                       return redirect()->route('app_activation_code',['token' =>$token])
                                 ->with('success',"un nouveau code d'activation est envoye");
 
     }
@@ -140,14 +133,8 @@ class LoginController extends Controller
                 $name =$user->name;
                 $emailSend = new EmailService;
                 $subject = "Activer votre compte";
-                $message = View('mail.confirmation_email')
-                               ->with([
-                                 'name'=> $name,
-                                 'activation_code'=>$activation_code,
-                                 'activation_token'=>$activation_token
-        
-                               ]);
-                $emailSend->sendEmail($subject,$new_email,$name,true,$message);
+ 
+                $emailSend->sendEmail($subject,$new_email,$name,true,$activation_code,$activation_token);
                 return redirect()->route('app_activation_code',['token' =>$token])
                                 ->with('success',"nous avons envoyé un nouveau code d'activation par email avec l'adresse email fourni !!!");
 

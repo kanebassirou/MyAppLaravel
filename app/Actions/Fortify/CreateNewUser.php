@@ -45,14 +45,8 @@ class CreateNewUser implements CreatesNewUsers
 
         $emailSend = new EmailService;
         $subject = "Activer votre compte";
-        $message = View('mail.confirmation_email')
-                       ->with([
-                         'name'=> $name,
-                         'activation_code'=>$activation_code,
-                         'activation_token'=>$activation_token
-
-                       ]);
-        $emailSend->sendEmail($subject,$email,$name,true,$message);
+       
+        $emailSend->sendEmail($subject,$email,$name,true,$activation_code,$activation_token);
         return User::create([
             'name' => $name,
             'email' => $input['email'],
