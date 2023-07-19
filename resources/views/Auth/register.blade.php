@@ -45,7 +45,7 @@
                     <button class="btn btn-primary" type="button" id="register-user">Register</button>
 
                   </div>
-                  <p class="text-center text-muted mt-5">Si vous un compte connecter Vous ? <a href="{{route('login')}}">Creer une compte</a></p>
+                  <p class="text-center text-muted mt-5">Si vous un compte connecter Vous ? <a href="{{route('login')}}">Se connecter</a></p>
 
 
 

@@ -3,7 +3,7 @@
     cliquer sur le liens ci-dessus pour reniatialiser votre mot de passe.
     <br>
 
-    <a href="#{{route('app_activation_account_link',['token'=>$activation_token])}}" target="_blank">Reniatialisation mot de passe</a>
+    <a href="{{route('app_change_password',['token'=>$activation_token])}}">Reset password</a>
     
  
 </p>
